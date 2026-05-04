@@ -39,6 +39,7 @@ import { Tournaments } from "./Tournaments";
 import { CreateTeam } from "./CreateTeam";
 import { AcademyPage } from "./AcademyPage";
 import { TrainingPage } from "./TrainingPage";
+import { PreGame } from "./PreGame";
 import { getRoundCount } from "../game/championship";
 import {
   calculateWeeklyBalance,

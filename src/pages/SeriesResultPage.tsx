@@ -19,7 +19,7 @@ export function SeriesResultPage() {
   // Consolidate stats from all maps
   const allStats = latestResult.maps.flatMap(m => m.playerStats || []);
   const uniquePlayerIds = Array.from(new Set(allStats.map(s => s.playerId)));
-  
+
   const consolidatedStats = uniquePlayerIds.map(pid => {
     const pStats = allStats.filter(s => s.playerId === pid);
     const p = players.find(player => player.id === pid);
@@ -43,7 +43,7 @@ export function SeriesResultPage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-ink p-2 rounded-full border border-line">
             <Trophy size={48} className={isUserWinner ? 'text-amber' : 'text-paper/20'} />
           </div>
-          
+
           <h1 className={`mt-4 text-5xl font-black italic uppercase tracking-tighter ${isUserWinner ? 'text-mint' : 'text-coral'}`}>
             {isUserWinner ? 'Vitória Dominante' : 'Derrota Amarga'}
           </h1>
@@ -119,11 +119,11 @@ export function SeriesResultPage() {
             <h3 className="text-xs font-black uppercase text-amber tracking-[0.3em] mb-6">Match MVP</h3>
             <div className="relative z-10">
               <div className="w-24 h-24 mx-auto rounded-full bg-amber/20 border-2 border-amber/40 grid place-items-center mb-4">
-                 <span className="text-3xl font-black text-amber">{mvp?.nickname[0]}</span>
+                <span className="text-3xl font-black text-amber">{mvp?.nickname[0]}</span>
               </div>
               <p className="text-2xl font-black text-paper">{mvp?.nickname}</p>
               <p className="text-xs text-paper/40 font-bold mt-1">Impacto Absoluto</p>
-              
+
               <div className="mt-6 pt-6 border-t border-amber/10 grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-[10px] font-black uppercase text-amber/40">Kills</p>
@@ -137,14 +137,14 @@ export function SeriesResultPage() {
             </div>
           </div>
 
-          <button 
+          <button
             className="flex h-16 w-full items-center justify-center gap-3 rounded-2xl bg-mint font-black text-ink shadow-hard hover:brightness-110 active:scale-95 transition"
             onClick={() => setView("overview")}
           >
             <Home size={20} /> Continuar para Dashboard
           </button>
-          
-          <button 
+
+          <button
             className="flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-line/60 bg-ink/40 text-xs font-black uppercase hover:bg-ink/60 transition"
           >
             <Share2 size={16} /> Compartilhar Resultados

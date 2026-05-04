@@ -6,6 +6,7 @@ import {
   TrendingUp,
   Zap,
 } from "lucide-react";
+import type { ReactNode } from "react";
 import { ACADEMY_CONFIGS, RARITY_COLORS } from "../types/Academy";
 import type { AcademyRarity } from "../types/Academy";
 import { useGameStore } from "../store/gameStore";
@@ -146,10 +147,16 @@ function RarityBadge({ rarity }: { rarity: AcademyRarity }) {
   );
 }
 
-function StatBox({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string; accent: string }) {
+function StatBox({ icon, label, value, accent }: { icon: ReactNode; label: string; value: string; accent: "mint" | "sky" | "amber" | "coral" }) {
+  const colors = {
+    mint: "bg-mint/15 text-mint",
+    sky: "bg-sky/15 text-sky",
+    amber: "bg-amber/15 text-amber",
+    coral: "bg-coral/15 text-coral",
+  };
   return (
     <div className="panel flex items-center gap-3 rounded-lg p-4">
-      <div className={`grid h-10 w-10 place-items-center rounded-md bg-${accent}/15 text-${accent}`}>
+      <div className={`grid h-10 w-10 place-items-center rounded-md ${colors[accent]}`}>
         {icon}
       </div>
       <div>

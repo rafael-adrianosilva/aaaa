@@ -31,6 +31,33 @@ const difficultyReputation: Record<Difficulty, number> = {
   elite: -2,
 };
 
+function createPlayerFromRealPlayer(real: RealPlayer): Player {
+  return {
+    id: real.id,
+    teamId: real.teamId,
+    name: real.realName,
+    nick: real.nickname,
+    age: real.age,
+    nationality: real.nationality,
+    position: real.role as any,
+    overall: real.overall,
+    potential: real.potential,
+    weeklySalary: real.salary,
+    marketValue: real.marketValue,
+    contractWeeks: 52,
+    morale: real.morale,
+    form: real.form,
+    mechanics: real.mechanics,
+    gameSense: real.gameSense,
+    communication: real.communication,
+    consistency: real.consistency,
+    aggression: 50,
+    composure: real.mental || 50,
+    status: real.status === "Starter" ? "starter" : real.status === "Academy" ? "academy" : "reserve",
+  };
+}
+
+
 export function createCareer(params: {
   managerName: string;
   difficulty: Difficulty;

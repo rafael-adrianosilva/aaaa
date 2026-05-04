@@ -108,14 +108,14 @@ export function LiveMatch() {
           <div className="h-44 bg-ink/40 p-5 relative overflow-hidden flex flex-col justify-end gap-1.5 border-t border-line/40 backdrop-blur-sm">
              {visibleKills.slice(-4).map((kill, idx) => (
                <div key={idx} className="flex items-center justify-end gap-3 text-xs font-bold animate-in slide-in-from-right-8 fade-in duration-500">
-                  <span className={`px-2 py-0.5 rounded ${teamA?.id === getPlayer(kill.killerId, players)?.teamId ? 'bg-mint/10 text-mint' : 'bg-coral/10 text-coral'}`}>
+                  <span className={`px-2 py-0.5 rounded ${teamA?.id === findGlobalPlayer(kill.killerId, players)?.teamId ? 'bg-mint/10 text-mint' : 'bg-coral/10 text-coral'}`}>
                     {getPlayerNickname(kill.killerId)}
                   </span>
                   <div className="flex items-center gap-1.5 text-paper/30 scale-90">
                     {kill.isHeadshot && <Target size={14} className="text-amber animate-pulse" />}
                     <span className="uppercase text-[9px] tracking-tighter border border-paper/10 px-1 rounded">{kill.weapon}</span>
                   </div>
-                  <span className={`px-2 py-0.5 rounded ${teamA?.id === getPlayer(kill.victimId, players)?.teamId ? 'bg-mint/10 text-mint' : 'bg-coral/10 text-coral'}`}>
+                  <span className={`px-2 py-0.5 rounded ${teamA?.id === findGlobalPlayer(kill.victimId, players)?.teamId ? 'bg-mint/10 text-mint' : 'bg-coral/10 text-coral'}`}>
                     {getPlayerNickname(kill.victimId)}
                   </span>
                </div>
@@ -269,6 +269,6 @@ function PlayerRow({ player, rounds }: { player: any, rounds: any[] }) {
   );
 }
 
-function getPlayer(id: string, players: any[]) {
+function findGlobalPlayer(id: string, players: any[]) {
   return players.find(p => p.id === id);
 }

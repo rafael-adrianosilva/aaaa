@@ -7,7 +7,7 @@ export type PlayerPosition =
   | "Controle"
   | "Flex";
 
-export type PlayerStatus = "starter" | "reserve" | "free-agent";
+export type PlayerStatus = "starter" | "reserve" | "free-agent" | "academy";
 
 export type Strategy = "balanced" | "aggressive" | "controlled" | "development";
 
