@@ -128,7 +128,7 @@ function createRealCareer(params: {
     const starterCount = existing.filter((p) => p.status === "starter").length;
     if (starterCount < 5) {
       const needed = 5 - starterCount;
-      const overallBase = Math.max(55, Math.min(85, Math.round(100 - team.rankingGlobal * 0.4)));
+      const overallBase = Math.max(55, Math.min(85, Math.round(100 - (team.rankingGlobal ?? 50) * 0.4)));
       const roles: PlayerPosition[] = ["Entrada", "Suporte", "Estrategista", "Controle", "Flex"];
       for (let i = 0; i < needed; i++) {
         const role = roles[(starterCount + i) % roles.length];

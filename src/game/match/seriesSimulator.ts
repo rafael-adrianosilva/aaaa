@@ -65,6 +65,8 @@ export function simulateSeries(params: {
     teamAId: teamA.id,
     teamBId: teamB.id,
     maps: mapResults,
+    scoreA: winsA,
+    scoreB: winsB,
     winnerTeamId,
     loserTeamId,
     mvpPlayerId: chooseSeriesMvp(mapResults),

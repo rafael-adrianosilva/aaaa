@@ -31,8 +31,8 @@ export function PreGame() {
     );
   }
 
-  const userMapPool = userTeam.mapPoolStrengths;
-  const opponentMapPool = opponent.mapPoolStrengths;
+  const userMapPool = userTeam.mapPoolStrengths ?? {};
+  const opponentMapPool = opponent.mapPoolStrengths ?? {};
   const maps = Object.keys(userMapPool);
 
   return (
@@ -50,7 +50,7 @@ export function PreGame() {
               <TeamBadge team={userTeam} size="xl" />
               <div className="text-center">
                 <h2 className="text-2xl font-black">{userTeam.name}</h2>
-                <p className="text-sm text-paper/50">Rank #{userTeam.rankingGlobal}</p>
+                <p className="text-sm text-paper/50">Rank #{userTeam.rankingGlobal ?? "N/A"}</p>
               </div>
             </div>
 
@@ -65,7 +65,7 @@ export function PreGame() {
               <TeamBadge team={opponent} size="xl" />
               <div className="text-center">
                 <h2 className="text-2xl font-black">{opponent.name}</h2>
-                <p className="text-sm text-paper/50">Rank #{opponent.rankingGlobal}</p>
+                <p className="text-sm text-paper/50">Rank #{opponent.rankingGlobal ?? "N/A"}</p>
               </div>
             </div>
           </div>
@@ -95,8 +95,8 @@ export function PreGame() {
                 </div>
 
                 <div className="flex w-24 justify-between text-[10px] font-black">
-                  <span className="text-mint">{userMapPool[mapId]}%</span>
-                  <span className="text-coral">{opponentMapPool[mapId]}%</span>
+                  <span className="text-mint">{userMapPool[mapId] ?? 0}%</span>
+                  <span className="text-coral">{opponentMapPool[mapId] ?? 0}%</span>
                 </div>
               </div>
             ))}
