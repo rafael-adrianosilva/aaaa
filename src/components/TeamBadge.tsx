@@ -2,7 +2,7 @@ import type { Team, TeamSeed } from "../types/game";
 import type { RealTeam } from "../types/RealTeam";
 
 interface TeamBadgeProps {
-  team: Team | TeamSeed | RealTeam | any;
+  team: Team | TeamSeed | RealTeam | any | null;
   size?: "sm" | "md" | "lg" | "xl";
 }
 

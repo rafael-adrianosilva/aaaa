@@ -73,25 +73,25 @@ const navItems: Array<{
   label: string;
   icon: LucideIcon;
 }> = [
-  { view: "overview", label: "Dashboard", icon: Home },
-  { view: "roster", label: "Elenco", icon: Users },
-  { view: "transfers", label: "Transferencias", icon: ShoppingBag },
-  { view: "standings", label: "Tabela", icon: Trophy },
-  { view: "training", label: "Treino", icon: Dumbbell },
-  { view: "finances", label: "Financas", icon: Wallet },
-  { view: "sponsors", label: "Patrocinios", icon: Handshake },
-  { view: "tournaments", label: "Campeonatos", icon: CalendarDays },
-  { view: "team-database", label: "Times CS", icon: Database },
-  { view: "player-database", label: "Jogadores CS", icon: BookOpen },
-  { view: "map-veto", label: "Veto", icon: Swords },
-  { view: "live-match", label: "Live Match", icon: Play },
-  { view: "series-result", label: "Resultado", icon: Trophy },
-  { view: "academy", label: "Academy", icon: GraduationCap },
-  { view: "training-individual", label: "Treino Individual", icon: Dumbbell },
-  { view: "create-team", label: "Criar Time", icon: Shield },
-  { view: "solo-queue", label: "Solo Queue", icon: Search },
-  { view: "social", label: "Rede Social", icon: Share2 },
-];
+    { view: "overview", label: "Dashboard", icon: Home },
+    { view: "roster", label: "Elenco", icon: Users },
+    { view: "transfers", label: "Transferencias", icon: ShoppingBag },
+    { view: "standings", label: "Tabela", icon: Trophy },
+    { view: "training", label: "Treino", icon: Dumbbell },
+    { view: "finances", label: "Financas", icon: Wallet },
+    { view: "sponsors", label: "Patrocinios", icon: Handshake },
+    { view: "tournaments", label: "Campeonatos", icon: CalendarDays },
+    { view: "team-database", label: "Times CS", icon: Database },
+    { view: "player-database", label: "Jogadores CS", icon: BookOpen },
+    { view: "map-veto", label: "Veto", icon: Swords },
+    { view: "live-match", label: "Live Match", icon: Play },
+    { view: "series-result", label: "Resultado", icon: Trophy },
+    { view: "academy", label: "Academy", icon: GraduationCap },
+    { view: "training-individual", label: "Treino Individual", icon: Dumbbell },
+    { view: "create-team", label: "Criar Time", icon: Shield },
+    { view: "solo-queue", label: "Solo Queue", icon: Search },
+    { view: "social", label: "Rede Social", icon: Share2 },
+  ];
 
 const strategies: Strategy[] = [
   "balanced",
@@ -146,11 +146,10 @@ export function Dashboard() {
               return (
                 <button
                   key={item.view}
-                  className={`flex h-10 items-center gap-3 rounded-md border px-3 text-left text-sm font-bold transition ${
-                    selected
-                      ? "border-mint bg-mint text-ink"
-                      : "border-transparent bg-transparent text-paper/72 hover:border-line hover:bg-paper/8 hover:text-paper"
-                  }`}
+                  className={`flex h-10 items-center gap-3 rounded-md border px-3 text-left text-sm font-bold transition ${selected
+                    ? "border-mint bg-mint text-ink"
+                    : "border-transparent bg-transparent text-paper/72 hover:border-line hover:bg-paper/8 hover:text-paper"
+                    }`}
                   type="button"
                   onClick={() => setView(item.view)}
                 >
@@ -167,11 +166,10 @@ export function Dashboard() {
               {strategies.map((strategy) => (
                 <button
                   key={strategy}
-                  className={`h-9 rounded-md border px-2 text-left text-sm font-bold transition ${
-                    career.strategy === strategy
-                      ? "border-amber bg-amber text-ink"
-                      : "border-line bg-ink/30 text-paper/72 hover:border-amber"
-                  }`}
+                  className={`h-9 rounded-md border px-2 text-left text-sm font-bold transition ${career.strategy === strategy
+                    ? "border-amber bg-amber text-ink"
+                    : "border-line bg-ink/30 text-paper/72 hover:border-amber"
+                    }`}
                   type="button"
                   onClick={() => setStrategy(strategy)}
                 >
@@ -581,68 +579,6 @@ function FinanceView({ career }: { career: CareerState }) {
   );
 }
 
-function SponsorsView() {
-  const signSponsor = useGameStore((state) => state.signSponsor);
-  const offers = [
-    { id: "regional" as const, name: "Circuito Regional", money: 28000, fans: 650 },
-    { id: "stream" as const, name: "Canal de Transmissao", money: 42000, fans: 1150 },
-    { id: "hardware" as const, name: "Equipamentos Vertice", money: 65000, fans: 400 },
-  ];
-
-  return (
-    <div className="grid gap-4 md:grid-cols-3">
-      {offers.map((offer) => (
-        <section key={offer.id} className="panel rounded-lg p-4">
-          <Handshake className="text-amber" size={24} />
-          <h3 className="mt-4 text-xl font-black">{offer.name}</h3>
-          <p className="mt-3 text-sm text-paper/65">
-            Caixa {formatMoney(offer.money)} · Torcida +{offer.fans}
-          </p>
-          <button
-            className="mt-5 h-10 w-full rounded-md bg-amber px-3 font-black text-ink hover:brightness-110"
-            type="button"
-            onClick={() => signSponsor(offer.id)}
-          >
-            Assinar
-          </button>
-        </section>
-      ))}
-    </div>
-  );
-}
-
-function AcademyView({ career }: { career: CareerState }) {
-  const userTeam = getUserTeam(career)!;
-  const prospects = getTeamPlayers(career, userTeam.id)
-    .filter((player) => player.age <= 20 || player.status === "reserve")
-    .sort((a, b) => b.potential - a.potential);
-
-  return (
-    <div className="grid gap-5">
-      <div className="grid gap-3 md:grid-cols-3">
-        <StatCard
-          label="Talentos monitorados"
-          value={`${prospects.length}`}
-          icon={<GraduationCap />}
-        />
-        <StatCard
-          label="Maior potencial"
-          value={`${prospects[0]?.potential ?? 0}`}
-          icon={<Activity />}
-          accent="sky"
-        />
-        <StatCard
-          label="Entrosamento base"
-          value={`${userTeam.synergy}`}
-          icon={<Shield />}
-          accent="amber"
-        />
-      </div>
-      <PlayerTable players={prospects} starterIds={userTeam.starters} />
-    </div>
-  );
-}
-
 function SoloQueueView({ career }: { career: CareerState }) {
   const scoutQueue = useGameStore((state) => state.scoutQueue);
   const candidates = getFreeAgents(career)
@@ -697,3 +633,4 @@ function SocialView({ career }: { career: CareerState }) {
     </div>
   );
 }
+
