@@ -16,15 +16,16 @@ const sizeClasses = {
 export function TeamBadge({ team, size = "md" }: TeamBadgeProps) {
   if (!team) return null;
 
-  // Handle different team object structures
-  const color = team.color || (team as any).primaryColor || "#333";
-  const crest = team.crest || (team as any).tag?.slice(0, 2) || team.name?.slice(0, 2) || "??";
+  // Use type assertion to handle different team object structures safely
+  const t = team as any;
+  const color = t.color || t.primaryColor || "#333";
+  const crest = t.crest || t.tag?.slice(0, 2) || t.name?.slice(0, 2) || "??";
 
   return (
     <div
       className={`${sizeClasses[size as keyof typeof sizeClasses]} grid shrink-0 place-items-center rounded-xl border border-line/40 font-black text-ink shadow-hard transition group-hover:scale-105`}
       style={{ backgroundColor: color }}
-      title={team.name}
+      title={t.name}
     >
       <span className="drop-shadow-sm uppercase">{crest}</span>
     </div>

@@ -105,7 +105,6 @@ export function Dashboard() {
   const selectedView = useGameStore((state) => state.selectedView);
   const setView = useGameStore((state) => state.setView);
   const setStrategy = useGameStore((state) => state.setStrategy);
-  const playNextMatch = useGameStore((state) => state.playNextMatch);
   const saveGame = useGameStore((state) => state.saveGame);
   const goToMenu = useGameStore((state) => state.goToMenu);
   const saveSlots = useGameStore((state) => state.saveSlots);
@@ -272,6 +271,7 @@ export function Dashboard() {
     </main>
   );
 }
+
 
 function OverviewView({ career }: { career: CareerState }) {
   const setView = useGameStore((state) => state.setView);
