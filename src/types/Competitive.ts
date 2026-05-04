@@ -1,3 +1,4 @@
+import type { AcademyState } from "./Academy";
 import type { ActiveSponsorContract, Sponsor } from "./Sponsor";
 import type { CalendarEvent, RankingEntry } from "./Ranking";
 import type { RealPlayer } from "./RealPlayer";
@@ -23,4 +24,6 @@ export type CompetitiveSaveData = {
   currentVeto: SeriesVetoResult | null;
   latestSeriesResult: SeriesResult | null;
   selectedTournamentId: string | null;
+  academies?: Record<string, AcademyState>;
 };
+

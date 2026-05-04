@@ -1,5 +1,8 @@
-import type { RoundResult, PlayerMatchStats } from "./Round";
-import type { SeriesFormat, SeriesVetoResult } from "./Veto";
+import type { Side } from "./Veto";
+
+export type BuyType = "Pistol" | "Eco" | "Force" | "HalfBuy" | "FullBuy" | "AntiEco";
+
+export type WinCondition = "Elimination" | "BombPlanted" | "BombDefused" | "Time";
 
 export type KillFeedEvent = {
   killerId: string;
@@ -37,3 +40,4 @@ export type RoundResult = {
   sideTeamA: Side;
   sideTeamB: Side;
 };
+

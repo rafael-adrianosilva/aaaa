@@ -14,6 +14,8 @@ const sizeClasses = {
 };
 
 export function TeamBadge({ team, size = "md" }: TeamBadgeProps) {
+  if (!team) return null;
+
   // Handle different team object structures
   const color = team.color || (team as any).primaryColor || "#333";
   const crest = team.crest || (team as any).tag?.slice(0, 2) || team.name?.slice(0, 2) || "??";
@@ -28,4 +30,3 @@ export function TeamBadge({ team, size = "md" }: TeamBadgeProps) {
     </div>
   );
 }
-

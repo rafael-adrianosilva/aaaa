@@ -52,6 +52,9 @@ export interface Team {
   points: number;
   roundDiff: number;
   synergy: number;
+  region?: string;
+  rankingGlobal?: number;
+  mapPoolStrengths?: Record<string, number>;
 }
 
 export interface Player {
@@ -88,6 +91,8 @@ export interface TeamSeed {
   fans: number;
   reputation: number;
   synergy: number;
+  region?: string;
+  rankingGlobal?: number;
 }
 
 export interface PlayerSeed {

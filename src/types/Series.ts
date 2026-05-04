@@ -18,6 +18,8 @@ export type SeriesResult = {
   seriesFormat: SeriesFormat;
   teamAId: string;
   teamBId: string;
+  scoreA: number;
+  scoreB: number;
   maps: MapResult[];
   winnerTeamId: string;
   loserTeamId: string;

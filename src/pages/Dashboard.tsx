@@ -31,7 +31,7 @@ import { TeamBadge } from "../components/TeamBadge";
 import { LiveMatch } from "./LiveMatch";
 import { MapVeto } from "./MapVeto";
 import { PlayerDatabase } from "./PlayerDatabase";
-import { SeriesResultPage } from "./SeriesResult";
+import { SeriesResultPage } from "./SeriesResultPage";
 import { Sponsors } from "./Sponsors";
 import { TeamDatabase } from "./TeamDatabase";
 import { TournamentDetails } from "./TournamentDetails";
