@@ -1,3 +1,5 @@
+import type { AcademyLevel } from "./Academy";
+
 export type CSRegion =
   | "Europe"
   | "Americas"
@@ -33,4 +35,7 @@ export type RealTeam = {
   currentForm: number;
   morale: number;
   mapPoolStrengths: Record<string, number>;
+  isCustom: boolean;
+  academyLevel: AcademyLevel;
+  academyMonthlyCost: number;
 };

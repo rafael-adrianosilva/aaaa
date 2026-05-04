@@ -1,3 +1,6 @@
+import type { AcademyRarity, DevelopmentStatus } from "./Academy";
+import type { TrainingType } from "./Training";
+
 export type CSRole =
   | "IGL"
   | "AWPer"
@@ -46,4 +49,9 @@ export type RealPlayer = {
   preferredMaps: string[];
   weakMaps: string[];
   status: RealPlayerStatus;
+  isGenerated: boolean;
+  rarity?: AcademyRarity;
+  developmentStatus?: DevelopmentStatus;
+  trainingPlan?: TrainingType;
+  fatigue: number;
 };

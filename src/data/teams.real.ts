@@ -87,6 +87,9 @@ function team(spec: TeamSpec): RealTeam {
     currentForm: Math.max(45, Math.min(95, 100 - spec.rankingGlobal + 8)),
     morale: Math.max(50, Math.min(96, spec.reputation - 4)),
     mapPoolStrengths: mapStrengths(72 + Math.max(0, 28 - spec.rankingGlobal), spec.focusMaps ?? []),
+    isCustom: false,
+    academyLevel: spec.rankingGlobal <= 10 ? 4 as const : spec.rankingGlobal <= 25 ? 3 as const : spec.rankingGlobal <= 50 ? 2 as const : 1 as const,
+    academyMonthlyCost: spec.rankingGlobal <= 10 ? 45000 : spec.rankingGlobal <= 25 ? 28000 : spec.rankingGlobal <= 50 ? 15000 : 8000,
   };
 }
 

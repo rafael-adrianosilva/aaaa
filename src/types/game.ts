@@ -30,7 +30,11 @@ export type DashboardView =
   | "player-database"
   | "map-veto"
   | "live-match"
-  | "series-result";
+  | "series-result"
+  | "create-team"
+  | "academy-detail"
+  | "training-individual"
+  | "pre-game";
 
 export interface Team {
   id: string;

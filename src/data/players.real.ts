@@ -272,6 +272,8 @@ function makePlayer(spec: PlayerSpec): RealPlayer {
     preferredMaps: spec.preferredMaps ?? defaultPreferred,
     weakMaps: spec.weakMaps ?? defaultWeak,
     status: spec.status ?? "Starter",
+    isGenerated: false,
+    fatigue: 0,
   };
 }
 
