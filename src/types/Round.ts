@@ -1,14 +1,24 @@
-import type { Side } from "./Veto";
+import type { RoundResult, PlayerMatchStats } from "./Round";
+import type { SeriesFormat, SeriesVetoResult } from "./Veto";
 
-export type WinCondition = "Elimination" | "BombPlanted" | "BombDefused" | "Time";
+export type KillFeedEvent = {
+  killerId: string;
+  victimId: string;
+  weapon: string;
+  isHeadshot: boolean;
+  isWallbang: boolean;
+  time: string; // e.g., "1:24"
+};
 
-export type BuyType =
-  | "Pistol"
-  | "Eco"
-  | "Force"
-  | "HalfBuy"
-  | "FullBuy"
-  | "AntiEco";
+export type PlayerMatchStats = {
+  playerId: string;
+  kills: number;
+  deaths: number;
+  assists: number;
+  adr: number;
+  rating: number;
+  hsp: number; // Headshot percentage
+};
 
 export type RoundResult = {
   roundNumber: number;
@@ -17,6 +27,7 @@ export type RoundResult = {
   winCondition: WinCondition;
   mvpPlayerId: string;
   keyEvent: string;
+  killFeed: KillFeedEvent[];
   economyTeamA: number;
   economyTeamB: number;
   buyTypeTeamA: BuyType;

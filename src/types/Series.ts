@@ -1,4 +1,4 @@
-import type { RoundResult } from "./Round";
+import type { RoundResult, PlayerMatchStats } from "./Round";
 import type { SeriesFormat, SeriesVetoResult } from "./Veto";
 
 export type MapResult = {
@@ -9,6 +9,7 @@ export type MapResult = {
   scoreB: number;
   winnerTeamId: string;
   rounds: RoundResult[];
+  playerStats: PlayerMatchStats[];
 };
 
 export type SeriesResult = {

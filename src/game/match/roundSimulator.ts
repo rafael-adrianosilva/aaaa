@@ -10,7 +10,7 @@ import {
   normalizeAntiEco,
   updateEconomy,
 } from "./economySimulator";
-import { chooseWinCondition, createRoundEvent } from "./matchEvents";
+import { chooseWinCondition, createRoundEvent, generateKillFeed } from "./matchEvents";
 
 export type RoundSimulationInput = {
   roundNumber: number;
@@ -61,6 +61,10 @@ export function simulateRound(input: RoundSimulationInput): RoundResult {
     bombPlanted: winCondition === "BombPlanted" || random() > 0.68,
   });
 
+  const loserPlayers = input.players.filter(
+    (player) => player.teamId === loserTeamId && player.status === "Starter",
+  );
+
   return {
     roundNumber: input.roundNumber,
     winnerTeamId,
@@ -68,6 +72,13 @@ export function simulateRound(input: RoundSimulationInput): RoundResult {
     winCondition,
     mvpPlayerId: mvp?.id ?? winnerPlayers[0]?.id ?? "",
     keyEvent: createRoundEvent(winCondition, mvp ?? undefined, random),
+    killFeed: generateKillFeed({ 
+      winnerPlayers, 
+      loserPlayers, 
+      random,
+      buyTypeWinner: aWins ? buyTypeTeamA : buyTypeTeamB,
+      buyTypeLoser: aWins ? buyTypeTeamB : buyTypeTeamA,
+    }),
     economyTeamA: economy.economyTeamA,
     economyTeamB: economy.economyTeamB,
     buyTypeTeamA,

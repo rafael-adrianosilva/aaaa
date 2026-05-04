@@ -681,6 +681,7 @@ function hydrateCompetitiveSaveData(
     calendar: saved.calendar?.length
       ? saved.calendar
       : buildTournamentCalendar(saved.tournaments ?? defaults.tournaments),
+    academies: saved.academies || {},
   };
 
   return {
@@ -709,6 +710,7 @@ function selectCompetitiveSaveData(state: GameStore): CompetitiveSaveData {
     currentVeto: state.currentVeto,
     latestSeriesResult: state.latestSeriesResult,
     selectedTournamentId: state.selectedTournamentId,
+    academies: state.academies,
   };
 }
 
