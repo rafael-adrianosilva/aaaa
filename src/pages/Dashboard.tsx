@@ -36,6 +36,9 @@ import { Sponsors } from "./Sponsors";
 import { TeamDatabase } from "./TeamDatabase";
 import { TournamentDetails } from "./TournamentDetails";
 import { Tournaments } from "./Tournaments";
+import { CreateTeam } from "./CreateTeam";
+import { AcademyPage } from "./AcademyPage";
+import { TrainingPage } from "./TrainingPage";
 import { getRoundCount } from "../game/championship";
 import {
   calculateWeeklyBalance,
@@ -83,6 +86,8 @@ const navItems: Array<{
   { view: "live-match", label: "Live Match", icon: Play },
   { view: "series-result", label: "Resultado", icon: Trophy },
   { view: "academy", label: "Academy", icon: GraduationCap },
+  { view: "training-individual", label: "Treino Individual", icon: Dumbbell },
+  { view: "create-team", label: "Criar Time", icon: Shield },
   { view: "solo-queue", label: "Solo Queue", icon: Search },
   { view: "social", label: "Rede Social", icon: Share2 },
 ];
@@ -213,7 +218,7 @@ export function Dashboard() {
               className="flex h-12 items-center justify-center gap-2 rounded-md bg-coral px-5 font-black text-ink shadow-hard transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-45"
               type="button"
               disabled={seasonDone || !nextFixture}
-              onClick={playNextMatch}
+              onClick={() => setView("pre-game")}
             >
               <Play size={18} />
               Jogar proxima partida
@@ -250,7 +255,13 @@ export function Dashboard() {
             ) : selectedView === "series-result" ? (
               <SeriesResultPage />
             ) : selectedView === "academy" ? (
-              <AcademyView career={career} />
+              <AcademyPage />
+            ) : selectedView === "training-individual" ? (
+              <TrainingPage />
+            ) : selectedView === "create-team" ? (
+              <CreateTeam />
+            ) : selectedView === "pre-game" ? (
+              <PreGame />
             ) : selectedView === "solo-queue" ? (
               <SoloQueueView career={career} />
             ) : (

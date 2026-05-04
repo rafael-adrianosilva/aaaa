@@ -118,12 +118,59 @@ function createRealCareer(params: {
   difficulty: Difficulty;
   teamId: string;
 }): CareerState {
-  const players = realPlayers.map(createPlayerFromRealPlayer);
+  const basePlayers = realPlayers.map(createPlayerFromRealPlayer);
+
+  // Auto-generate players for teams without full rosters
+  const generatedPlayers: Player[] = [];
+  for (const team of realTeams) {
+    const existing = basePlayers.filter((p) => p.teamId === team.id);
+    const starterCount = existing.filter((p) => p.status === "starter").length;
+    if (starterCount < 5) {
+      const needed = 5 - starterCount;
+      const overallBase = Math.max(55, Math.min(85, Math.round(100 - team.rankingGlobal * 0.4)));
+      const roles: PlayerPosition[] = ["Entrada", "Suporte", "Estrategista", "Controle", "Flex"];
+      for (let i = 0; i < needed; i++) {
+        const role = roles[(starterCount + i) % roles.length];
+        const age = 19 + Math.floor(Math.random() * 10);
+        const overall = clamp(overallBase + Math.floor((Math.random() - 0.4) * 8), 50, 92);
+        const potential = clamp(overall + 3 + Math.floor(Math.random() * 10), overall + 5, 99);
+        const id = `gen-${team.id}-${i}`;
+        generatedPlayers.push({
+          id,
+          teamId: team.id,
+          name: `Player ${i + 1}`,
+          nick: `${team.name.slice(0, 3)}${i + 1}`,
+          age,
+          nationality: team.country,
+          position: role,
+          overall,
+          potential,
+          weeklySalary: Math.round((overall * 820 + potential * 260) / 250) * 250,
+          marketValue: Math.round((overall * 1800 + potential * 2100) / 1000) * 1000,
+          contractWeeks: 52,
+          morale: 60 + Math.floor(Math.random() * 15),
+          form: 60 + Math.floor(Math.random() * 15),
+          mechanics: clamp(overall + Math.floor((Math.random() - 0.4) * 8), 45, 99),
+          gameSense: clamp(overall + Math.floor((Math.random() - 0.4) * 8), 45, 99),
+          communication: clamp(overall + Math.floor((Math.random() - 0.4) * 6), 45, 99),
+          consistency: clamp(overall + Math.floor((Math.random() - 0.4) * 6), 45, 99),
+          aggression: clamp(overall + Math.floor((Math.random() - 0.4) * 6), 45, 99),
+          composure: clamp(overall + Math.floor((Math.random() - 0.4) * 6), 45, 99),
+          status: "starter",
+        });
+      }
+    }
+  }
+
+  const players = [...basePlayers, ...generatedPlayers];
   const teams = realTeams.map<Team>((team) => {
     const roster = players
       .filter((player) => player.teamId === team.id)
       .map((player) => player.id);
-    const starters = roster.slice(0, 5);
+    const starters = players
+      .filter((player) => player.teamId === team.id && player.status === "starter")
+      .map((player) => player.id)
+      .slice(0, 5);
     const isUserTeam = team.id === params.teamId;
 
     return {

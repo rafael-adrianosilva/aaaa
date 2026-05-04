@@ -5,6 +5,19 @@ import { sponsors as sponsorData } from "../data/sponsors";
 import { realTeams } from "../data/teams.real";
 import { realTournaments } from "../data/tournaments.real";
 import { createCareer } from "../game/careerFactory";
+import { createCustomTeam as buildCustomTeam } from "../game/teamCreator";
+import {
+  createAcademyState,
+  dismissAcademyPlayer as dismissAcadPlayer,
+  generateNewTalents,
+  initializeAcademyPlayers,
+  promoteAcademyPlayer as promoteAcadPlayer,
+  upgradeAcademy as upgradeAcad,
+} from "../game/academyManager";
+import { trainPlayer } from "../game/trainingManager";
+import type { AcademyState } from "../types/Academy";
+import type { TeamCreationParams } from "../types/TeamCreation";
+import type { TrainingType } from "../types/Training";
 import {
   acceptSponsor,
   hireFreeAgent,
@@ -123,6 +136,13 @@ interface GameStore {
   applySponsorBonuses: (
     event?: "Win" | "Title" | "Playoff" | "Qualification" | "MajorQualification",
   ) => void;
+  createCustomTeam: (params: TeamCreationParams) => void;
+  promoteAcademyPlayer: (playerId: string) => void;
+  dismissAcademyPlayer: (playerId: string) => void;
+  upgradeAcademy: () => void;
+  generateTalents: () => void;
+  trainIndividual: (playerId: string, trainingType: TrainingType) => void;
+  academies: Record<string, AcademyState>;
   saveGame: (slot: 1 | 2 | 3) => void;
   loadGame: (slot: 1 | 2 | 3) => void;
   deleteSave: (slot: 1 | 2 | 3) => void;
@@ -136,6 +156,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   career: null,
   saveSlots: loadSaveSlots(),
   ...defaultCompetitive,
+  academies: {},
 
   openCareerSetup: () =>
     set({
@@ -260,6 +281,103 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set((state) => ({
       career: state.career ? scoutSoloQueue(state.career) : state.career,
     })),
+
+  createCustomTeam: (params) => {
+    const { team, players: newPlayers } = buildCustomTeam(params);
+    const academy = createAcademyState(team.id, team.academyLevel);
+    academy.playerIds = newPlayers.filter((p) => p.status === "Academy").map((p) => p.id);
+    const career = createCareer({
+      managerName: params.managerName,
+      difficulty: "pro",
+      teamId: team.id,
+    });
+    set((state) => {
+      const competitive = createDefaultCompetitiveData();
+      return {
+        ...competitive,
+        screen: "game" as const,
+        selectedView: "overview" as const,
+        career,
+        teams: [team, ...competitive.teams],
+        players: [...newPlayers, ...competitive.players],
+        academies: { ...state.academies, [team.id]: academy },
+      };
+    });
+  },
+
+  promoteAcademyPlayer: (playerId) =>
+    set((state) => {
+      const teamId = getCompetitiveTeamId(state);
+      if (!teamId) return {};
+      const team = state.teams.find((t) => t.id === teamId);
+      const academy = state.academies[teamId];
+      if (!team || !academy) return {};
+      const result = promoteAcadPlayer({ playerId, players: state.players, team, academy });
+      if (!result) return {};
+      return {
+        players: result.players,
+        teams: state.teams.map((t) => (t.id === teamId ? result.team : t)),
+        academies: { ...state.academies, [teamId]: result.academy },
+      };
+    }),
+
+  dismissAcademyPlayer: (playerId) =>
+    set((state) => {
+      const teamId = getCompetitiveTeamId(state);
+      if (!teamId) return {};
+      const academy = state.academies[teamId];
+      if (!academy) return {};
+      const result = dismissAcadPlayer({ playerId, players: state.players, academy });
+      if (!result) return {};
+      return {
+        players: result.players,
+        academies: { ...state.academies, [teamId]: result.academy },
+      };
+    }),
+
+  upgradeAcademy: () =>
+    set((state) => {
+      const teamId = getCompetitiveTeamId(state);
+      if (!teamId) return {};
+      const team = state.teams.find((t) => t.id === teamId);
+      const academy = state.academies[teamId];
+      if (!team || !academy) return {};
+      const result = upgradeAcad({ team, academy });
+      if (!result) return {};
+      return {
+        teams: state.teams.map((t) => (t.id === teamId ? result.team : t)),
+        academies: { ...state.academies, [teamId]: result.academy },
+      };
+    }),
+
+  generateTalents: () =>
+    set((state) => {
+      const teamId = getCompetitiveTeamId(state);
+      if (!teamId) return {};
+      const team = state.teams.find((t) => t.id === teamId);
+      const academy = state.academies[teamId] ?? createAcademyState(teamId, team?.academyLevel ?? 1);
+      if (!team) return {};
+      const result = generateNewTalents({
+        academy,
+        team,
+        existingPlayers: state.players,
+        seed: `talent-${Date.now()}`,
+      });
+      return {
+        players: [...state.players, ...result.players],
+        academies: { ...state.academies, [teamId]: result.academy },
+      };
+    }),
+
+  trainIndividual: (playerId, trainingType) =>
+    set((state) => {
+      const player = state.players.find((p) => p.id === playerId);
+      if (!player) return {};
+      const result = trainPlayer(player, trainingType);
+      return {
+        players: state.players.map((p) => (p.id === playerId ? result.player : p)),
+      };
+    }),
 
   selectTournament: (tournamentId) =>
     set((state) => ({
